@@ -151,6 +151,8 @@ class MS_Net(nn.Module):
         for scale,[ model,x ] in enumerate(zip( self.models[1:],x_list[1:] )):
             y_up = scale_tensor( y[scale], scale_factor=2 )*masks[scale]
             y.append( model( torch.cat((x,y_up),dim=1) ) + y_up )
+        
+        y[-1] = y[-1] * masks[scale + 1]
         return y
         
         
